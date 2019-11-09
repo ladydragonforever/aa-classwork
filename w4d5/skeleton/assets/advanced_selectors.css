@@ -74,7 +74,7 @@ input:last-child:hover {
   background-color: lightgray
 }
 
-h2 + div .user_review {
+h2 + .user_review {
   border-top: 1px solid black
 }
 
