@@ -1,13 +1,19 @@
 class UsersController < ApplicationController
   def index
-    user = User.all
-    render json: user
+    if params[:id] && User.find_by(id: params[:id])
+      user = User.find(params[:id])
+      redirect_to user_url(user)
+    elsif params[:id] && !User.find_by(id: params[:id])
+      render json: ["User does not exist"], status: :unprocessable_entity
+    else
+      user = User.all
+      render json: user
+    end
   end
 
   def create
     user = User.new(user_params)
-    # permitted = params.require(:user).permit(:name, :email)
-    # debugger
+
     if user.save
       render json: user
     else
@@ -40,6 +46,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:user_name)
     end
 end
